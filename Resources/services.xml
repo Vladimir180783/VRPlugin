@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service class="VRPlugin\Components\API\Resource\Brand" id="shopware.api.brand">
+            <call method="setAcl">
+                <argument id="acl" type="service"/>
+            </call>
+            <call method="setManager">
+                <argument id="models" type="service"/>
+            </call>
+        </service>
+
+        <service class="VRPlugin\Subscribers\VRSubscriber" id="vrplugin.subscribers.vrsubscriber">
+            <tag name="shopware.event_subscriber"/>
+        </service>
+
+
+    </services>
+</container>
