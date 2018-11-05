@@ -2,6 +2,7 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <!-- Api service -->
     <services>
         <service class="VRPlugin\Components\API\Resource\Brand" id="shopware.api.brand">
             <call method="setAcl">
@@ -12,9 +13,24 @@
             </call>
         </service>
 
+        <!-- Subscriber  service -->
         <service class="VRPlugin\Subscribers\VRSubscriber" id="vrplugin.subscribers.vrsubscriber">
             <tag name="shopware.event_subscriber"/>
         </service>
+
+        <!-- GetBrands service -->
+            <service class="VRPlugin\Services\GetBrands" id="vrplugin.services.get_brands">
+                <argument id="models" type="service"/>
+            </service>
+
+        <!--  My custom service which decorates existing list product service    -->
+        <service class="VRPlugin\Bundle\StoreFrontBundle\DecorateListProductService"
+                 id="vrplugin_bundle_store_front.list_product_service"
+                 decorates="shopware_storefront.list_product_service"
+                 public="true">
+            <argument id="vrplugin_bundle_store_front.list_product_service.inner" type="service"/>
+        </service>
+
 
 
     </services>

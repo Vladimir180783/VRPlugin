@@ -3,6 +3,9 @@
 class Shopware_Controllers_Frontend_Test extends Enlight_Controller_Action
 {
 
+    /**
+     * @var \Shopware\Components\Api\Resource\Resource|\VRPlugin\Components\API\Resource\Brand
+     */
     private $resource;
 
     /**
@@ -34,6 +37,8 @@ class Shopware_Controllers_Frontend_Test extends Enlight_Controller_Action
      */
     public function listAction()
     {
+        //this can be done via container also , no need to inject via constructor
+        //$brands = $this->get('shopware.api.brand');
         $brands = $this->resource->getList(null);
 
         echo '<pre>';
@@ -90,5 +95,28 @@ class Shopware_Controllers_Frontend_Test extends Enlight_Controller_Action
 
         echo 'Brand was deleted';
     }
+
+    /**
+     * @throws Exception
+     *
+     * test action for decorating existing service list_product_service
+     *
+     */
+        public function decorateAction()
+        {
+
+            //getting context
+            $context = $this->container->get('shopware_storefront.context_service')->getShopContext();
+
+            //array of order numbers in s_articles_details
+            $array = ['SW10001','SW10002'];
+
+            //returning from decorated service the list of products based on context and order numbers that are passed
+            $result = $this->get('vrplugin_bundle_store_front.list_product_service')->getList($array, $context);
+
+
+            echo '<pre>';
+            var_dump($result);
+        }
 
     }
